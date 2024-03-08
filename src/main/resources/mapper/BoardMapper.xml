@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.encore_spring_pjt.mapper.BoardMapper"> 
+    <!-- comment -->
+    <sql id="insertColumns">
+        title       ,
+        content     ,
+        writer      ,
+        view_cnt    ,
+        notice_yn   ,
+        secret_yn   ,
+        delete_yn   ,
+        insert_time ,
+        update_time 
+    </sql>
+    <sql id="selectColumns">
+        idx         ,
+        title       ,
+        content     ,
+        writer      ,
+        view_cnt    ,
+        notice_yn   ,
+        secret_yn   ,
+        delete_yn   ,
+        insert_time ,
+        update_time 
+    </sql>
+    <insert id="save"
+            parameterType="com.example.encore_spring_pjt.domain.BoardRequest"
+            useGeneratedKeys="true"
+            keyProperty="idx" >
+        INSERT INTO ENCORE_BOARD_TBL(
+            <include refid="selectColumns" />
+        )
+        VALUES( #{idx},
+                #{title},
+                #{content},
+                #{writer},
+                0 ,
+                #{noticeYn},
+                false,
+                false,
+                NOW(),
+                NULL)
+    </insert>
+
+    <select id="findByIdx" 
+            parameterType="com.example.encore_spring_pjt.domain.BoardRequest"
+            resultType="com.example.encore_spring_pjt.domain.BoardResponse"> 
+        SELECT  
+            <include refid="selectColumns" /> 
+        FROM    
+            ENCORE_BOARD_TBL 
+        WHERE   
+            IDX = #{idx}   
+    </select>
+    
+    <update id="updateByIdx"
+            parameterType="com.example.encore_spring_pjt.domain.BoardRequest">
+        UPDATE ENCORE_BOARD_TBL 
+        SET 
+            UPDATE_TIME = NOW(),
+            TITLE       = #{title}, 
+            CONTENT     = #{content}, 
+            WRITER      = #{writer}
+        WHERE 
+            IDX = #{idx}
+    </update>
+
+    <select id="count"
+            resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        FROM    
+            ENCORE_BOARD_TBL 
+        WHERE 
+            DELETE_YN = 0 
+    </select>
+
+    <delete id="deleteByIdx"
+            parameterType="com.example.encore_spring_pjt.domain.BoardRequest">
+        UPDATE ENCORE_BOARD_TBL 
+        SET 
+            DELETE_YN   = 1 ,
+            DELETE_TIME = NOW() 
+        WHERE 
+            IDX = #{idx} 
+    </delete>
+
+    <select id="findAll"
+            resultType="com.example.encore_spring_pjt.domain.BoardResponse">
+        SELECT  
+            <include refid="selectColumns" /> 
+        FROM    
+            ENCORE_BOARD_TBL 
+        WHERE
+            DELETE_YN = 0 
+    </select>
+
+    <update id="updateByCnt"
+            parameterType="com.example.encore_spring_pjt.domain.BoardRequest">
+        UPDATE 
+            ENCORE_BOARD_TBL 
+        SET 
+            VIEW_CNT = VIEW_CNT + 1 
+        WHERE 
+            IDX = #{idx} 
+    </update>
+</mapper>
