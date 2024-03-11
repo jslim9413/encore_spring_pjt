@@ -1,6 +1,7 @@
 package com.example.encore_spring_pjt.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class PostServiceImpl implements BoardService{
     }
 
     @Override
-    public BoardResponse findBoard(BoardRequest params) {
+    public Optional<BoardResponse> findBoard(BoardRequest params) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findBoard'");
     }

@@ -5,7 +5,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-// https://github.com/jslim9413/encore_spring_pjt.git
+// https://github.com/jslim9413/encore_spring_pjt.git 
+
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class) 
 public class EncoreSpringPjtApplication {
 
