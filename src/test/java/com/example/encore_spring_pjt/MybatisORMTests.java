@@ -1,6 +1,7 @@
 package com.example.encore_spring_pjt;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class MybatisORMTests {
         BoardRequest request = BoardRequest.builder()
                                 .idx(3)
                                 .build() ; 
-        BoardResponse response = boardMapper.findByIdx(request);
+        Optional<BoardResponse> response = boardMapper.findByIdx(request);
         System.out.println("debug find result >>>>> ");
         System.out.println(response);  
         System.out.println(">>>>>>>>>>>>>> json ") ; 

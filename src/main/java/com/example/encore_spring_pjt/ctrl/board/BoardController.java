@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("/board") // http:// serverip : port / board
-
 public class BoardController {
 
     @Resource(name = "board" )

@@ -1,6 +1,7 @@
 package com.example.encore_spring_pjt;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,7 @@ public class BoardServiceTests {
                                 .idx(3)
                                 .build() ; 
 
-        BoardResponse response = service.findBoard(request);
+        Optional<BoardResponse> response = service.findBoard(request);
         System.out.println("debug find result >>>>> ");
         System.out.println(response);  
     }

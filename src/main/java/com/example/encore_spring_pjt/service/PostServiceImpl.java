@@ -1,55 +1,24 @@
 package com.example.encore_spring_pjt.service;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.encore_spring_pjt.domain.BoardRequest;
-import com.example.encore_spring_pjt.domain.BoardResponse;
-import com.example.encore_spring_pjt.mapper.BoardMapper;
+import com.example.encore_spring_pjt.ctrl.jpa.dao.BoardRepository;
+import com.example.encore_spring_pjt.ctrl.jpa.domain.BoardEntity;
 
-@Service("post")
-public class PostServiceImpl implements BoardService{
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class PostServiceImpl {
     
-    @Autowired
-    private BoardMapper boardMapper ; 
-    
-    @Override
-    public Integer saveBoard(BoardRequest params) {
-        System.out.println("debug >>>> post service saveBoard : " + boardMapper);
-        return null ; 
-    }
+    private final BoardRepository boardRepository;
 
-    @Override
-    public Optional<BoardResponse> findBoard(BoardRequest params) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findBoard'");
+    public List<BoardEntity> listBoard() {
+        System.out.println("debug >>> service listBoard "); 
+        List<BoardEntity> list = boardRepository.findAll() ;
+        return list ;
     }
-
-    @Override
-    public Integer updateBoard(BoardRequest params) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateBoard'");
-    }
-
-    @Override
-    public Integer deleteBoard(BoardRequest params) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteBoard'");
-    }
-
-    @Override
-    public List<BoardResponse> listBoard() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listBoard'");
-    }
-
-    @Override
-    public Integer cntBoard() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'cntBoard'");
-    }
-    
 }
+
