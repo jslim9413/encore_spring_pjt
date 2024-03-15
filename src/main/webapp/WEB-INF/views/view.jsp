@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-                    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+        
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +18,12 @@
         <div class="pull-left">
             <h1 class="page-title">Hanwha SW Camp 5th</h1>
         </div>
+        <%-- 세션처리 추가 --%>
+        <div class="pull-right">
+            <h1 class="page-title">${ loginUser.name }님 로그인</h1>
+            <button class="btn btn-warning btn-sm"><a href="/user/logout.hanwha">로그아웃</a></button>
+        </div>
+        
     </div>
     
 	<div id="wrapper">
@@ -67,6 +74,8 @@
         <div class="btn_wrap text-center">
             <a  href="/board/list.hanwha" 
                 class="btn btn-default waves-effect waves-light">뒤로가기</a>
+
+            <c:if test="${ loginUser.id == response.writer }">    
             <a  href="/board/write.hanwha?idx=${response.idx}"  
                 class="btn btn-primary waves-effect waves-light">수정하기</a>
             <%--    
@@ -77,7 +86,8 @@
             <button type="button" 
                     class="btn btn-danger waves-effect waves-light" 
                     id="delBtn">삭제하기</button>
-            
+            </c:if>
+
         </div>
     </div>
 

@@ -40,6 +40,13 @@ public class BoardServiceImpl implements BoardService {
         Optional<BoardResponse> response = boardMapper.findByIdx(params);
         return response ;
     }
+    
+    @Transactional
+    @Override
+    public void findBoardUpCnt(BoardRequest params) {
+        System.out.println("debug >>> service findBoardNotCnt ");
+        boardMapper.updateByCnt(params); 
+    }
 
     @Transactional
     @Override
@@ -67,6 +74,13 @@ public class BoardServiceImpl implements BoardService {
     public Integer cntBoard() {
         System.out.println("debug >>> service cntBoard "); 
         return boardMapper.count() ; 
+    }
+
+    @Override
+    public Optional<BoardResponse> findBoardNotView(BoardRequest params) {
+        System.out.println("debug >>> service findBoard ");
+        Optional<BoardResponse> response = boardMapper.findByIdx(params);
+        return response ;
     }
     
 }

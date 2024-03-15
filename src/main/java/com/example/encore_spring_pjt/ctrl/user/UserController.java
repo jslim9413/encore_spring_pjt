@@ -45,8 +45,23 @@ public class UserController {
         System.out.println("debug >>> ctrl result , " + response); 
 
         if(response != null) {
-            session.setAttribute("loginUser", response);
-            return "redirect:/board/list.hanwha" ; 
+            // 암호화이후 로그인 처리 구현부
+            String userPwd = params.getPwd();
+            String encorePwd = response.getPwd();
+            // 비밀번호 일치 여부를 matches() 함수를 이용해서 확인 
+            if(passwordEncoder.matches(userPwd, encorePwd)) {
+                System.out.println("debug >>> matches() true") ;
+                response.setPwd("");  
+                session.setAttribute("loginUser", response);
+                return "redirect:/board/list.hanwha" ; 
+            }else {
+                System.out.println("debug >>> 아이디일치 했지만 패스워드가 다른경우");
+                attr.addFlashAttribute("failMsg" ,"비밀번호를 잘못 입력했습니다.\r\n" + //
+                                "입력하신 내용을 다시 확인해주세요.");
+
+                return "redirect:/";
+            }
+            
         }else {
             attr.addFlashAttribute("failMsg" , 
                                 "아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.\r\n" + //

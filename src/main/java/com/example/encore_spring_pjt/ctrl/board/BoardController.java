@@ -16,6 +16,10 @@ import com.example.encore_spring_pjt.service.BoardServiceImpl;
 import com.oracle.wls.shaded.org.apache.xpath.operations.Mod;
 
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,21 +56,67 @@ public class BoardController {
 
     // @GetMapping("/view.hanwha/{idx}")
     // public String view(@PathVariable("idx") String idx) {    
+    /* 
     @GetMapping("/view.hanwha")
     public String view(BoardRequest params, Model model) {
         System.out.println("debug BoardController client path /board/view.hanwha");
         System.out.println("params value  , " + params.getIdx());
         
-        /*  
         view로부터 키(idx) 값을 전달받고 객체로 바인딩되서 service 에 전달
         response 객체를 반환받고 
         해당 response 객체 Model에 심어서 View 페이지로 전달 과정 
-        */
         Optional<BoardResponse> response = service.findBoard(params);
-        model.addAttribute("response", response) ; 
+        model.addAttribute("response", response.get() ) ; 
 
         return "view" ; 
     }
+    */
+
+    // 조회수 중복방지 구현으로 커스터마이징......
+    // 쿠기를 이용한 WEB : request.getSession() ,  request.getCookies() ; 
+    // setMaxAge(60 * 60 * 24 * 30)
+    @GetMapping("/view.hanwha")
+    public String view( BoardRequest params, 
+                        Model model, 
+                        HttpServletRequest  request , 
+                        HttpServletResponse response) {
+        System.out.println("debug BoardController client path /board/view.hanwha");
+        System.out.println("params value  , " + params.getIdx());
+        
+        Cookie [] cookies = request.getCookies() ; 
+        System.out.println("debug >>> cookies length : " + cookies.length );  
+        int visited = 0 ; 
+
+        for(Cookie cookie : cookies) {
+            System.out.println("debug >>>> cookie name , " + cookie.getName() ); 
+            if( cookie.getName().equals("visit") ) {
+                visited = 1 ;
+                System.out.println("debug >>>> cookie exits visited "); 
+                if( cookie.getValue().contains(params.getIdx()+"")) {
+                    System.out.println("debug >>>> cookie value idx , " + params.getIdx());
+                    Optional<BoardResponse> result = service.findBoardNotView(params);
+                    model.addAttribute("response", result.get());
+                } else {
+                    System.out.println("visit cookie exits but params idx not exits"); 
+                    cookie.setValue(params.getIdx()+"");
+                    response.addCookie(cookie);
+                    Optional<BoardResponse> result = service.findBoard(params);
+                    model.addAttribute("response", result.get());        
+                }
+                
+            }
+        }
+        System.out.println("debug >>> after loop visited , " + visited ); 
+        if(visited == 0) {
+            Cookie c = new Cookie("visit", params.getIdx()+"") ; 
+            response.addCookie(c); 
+            Optional<BoardResponse> result = service.findBoard(params);
+            model.addAttribute("response", result.get());
+        }
+
+        return "view" ; 
+    }
+
     @GetMapping("/write.hanwha")
     public String writeForm(BoardRequest params, Model model) {
         System.out.println("debug BoardController client path GET /board/write.hanwha");
