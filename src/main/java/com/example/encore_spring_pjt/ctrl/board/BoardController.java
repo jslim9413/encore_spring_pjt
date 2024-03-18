@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.encore_spring_pjt.ctrl.board.util.PageDTO;
 import com.example.encore_spring_pjt.domain.BoardRequest;
 import com.example.encore_spring_pjt.domain.BoardResponse;
 import com.example.encore_spring_pjt.service.BoardService;
@@ -21,6 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,25 +33,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("/board") // http:// serverip : port / board
+
 public class BoardController {
 
     @Resource(name = "board" )
     private BoardService service ; 
 
+    /* 페이지 처리로 변경됨 부분임.
     @RequestMapping("/list.hanwha") // http:// serverip : port / board / list.hanwha
     public String list(Model model) {
         System.out.println("debug BoardController client path /board/list.hanwha");
         
-        /* 
         BoardServiceImpl listBoard() 메서드 호출하여 결과를 반환 받고
         반환받은 결과를 Model(requestScope) 심고 이 데이터를
         forward 되는 페이지에서 출력  
-        */
-
+        
         List<BoardResponse> list = service.listBoard() ;  
         for(BoardResponse response : list) {
             System.out.println(response); 
         }        
+        model.addAttribute("lst", list ) ;
+        return "list" ; 
+    }
+    */
+    @RequestMapping("/list.hanwha") // http:// serverip : port / board / list.hanwha
+    public String list(PageDTO params, Model model) {
+        System.out.println("debug BoardController client path /board/list.hanwha params , " + params);
+        
+        List<BoardResponse> list = service.listBoard(params) ;  
         model.addAttribute("lst", list ) ;
         return "list" ; 
     }

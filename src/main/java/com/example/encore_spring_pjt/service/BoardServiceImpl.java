@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import com.example.encore_spring_pjt.ctrl.board.util.PageDTO;
 import com.example.encore_spring_pjt.domain.BoardRequest;
 import com.example.encore_spring_pjt.domain.BoardResponse;
 import com.example.encore_spring_pjt.mapper.BoardMapper;
@@ -64,18 +64,31 @@ public class BoardServiceImpl implements BoardService {
         return params.getIdx() ; 
     }
 
+    /* 페이지처리로 변경  
     @Override
     public List<BoardResponse> listBoard() {
         System.out.println("debug >>> service listBoard "); 
         return boardMapper.findAll();
     }
-
+    
     @Override
     public Integer cntBoard() {
         System.out.println("debug >>> service cntBoard "); 
         return boardMapper.count() ; 
     }
-
+    */
+    @Override
+    public List<BoardResponse> listBoard(PageDTO params) {
+        System.out.println("debug >>> service listBoard ");
+        System.out.println("debug >>> service params  , " + params); 
+        return boardMapper.findAll(params);
+    }
+    
+    @Override
+    public Integer cntBoard(PageDTO params) {
+        System.out.println("debug >>> service cntBoard "); 
+        return boardMapper.count(params) ; 
+    }
     @Override
     public Optional<BoardResponse> findBoardNotView(BoardRequest params) {
         System.out.println("debug >>> service findBoard ");

@@ -69,6 +69,7 @@
     </update>
 
     <select id="count"
+            parameterType="com.example.encore_spring_pjt.ctrl.board.util.PageDTO"
             resultType="java.lang.Integer">
         SELECT
             COUNT(*)
@@ -89,6 +90,7 @@
     </delete>
 
     <select id="findAll"
+            parameterType="com.example.encore_spring_pjt.ctrl.board.util.PageDTO"
             resultType="com.example.encore_spring_pjt.domain.BoardResponse">
         SELECT  
             <include refid="selectColumns" /> 
@@ -96,6 +98,10 @@
             ENCORE_BOARD_TBL 
         WHERE
             DELETE_YN = 0 
+        ORDER BY 
+            IDX DESC 
+        LIMIT #{offset} , #{recordSize} 
+        
     </select>
 
     <update id="updateByCnt"

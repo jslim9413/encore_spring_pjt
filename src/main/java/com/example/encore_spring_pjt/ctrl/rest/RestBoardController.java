@@ -1,17 +1,5 @@
 package com.example.encore_spring_pjt.ctrl.rest;
 
-import org.springframework.web.bind.annotation.RestController;
-
-import com.example.encore_spring_pjt.domain.BoardRequest;
-import com.example.encore_spring_pjt.domain.BoardResponse;
-import com.example.encore_spring_pjt.service.BoardService;
-
-import jakarta.annotation.Resource;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +14,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.encore_spring_pjt.ctrl.board.util.PageDTO;
+import com.example.encore_spring_pjt.domain.BoardRequest;
+import com.example.encore_spring_pjt.domain.BoardResponse;
+import com.example.encore_spring_pjt.service.BoardService;
+
+import jakarta.annotation.Resource;
 
 
 
@@ -59,9 +56,9 @@ public class RestBoardController {
 
     // 전체조회
     @GetMapping(value = "/list" , produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<BoardResponse>> list() {
+    public ResponseEntity<List<BoardResponse>> list(@RequestBody PageDTO params) {
         System.out.println("debug RestBoardController client path /board_rest/list");
-        List<BoardResponse> list = service.listBoard();
+        List<BoardResponse> list = service.listBoard(params);
         return new ResponseEntity<List<BoardResponse>>(list, HttpStatus.OK) ;       
     }
 

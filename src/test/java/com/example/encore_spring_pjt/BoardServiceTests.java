@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.example.encore_spring_pjt.ctrl.board.util.PageDTO;
 import com.example.encore_spring_pjt.domain.BoardRequest;
 import com.example.encore_spring_pjt.domain.BoardResponse;
 import com.example.encore_spring_pjt.service.BoardService;
@@ -84,7 +85,8 @@ public class BoardServiceTests {
     @Test
     public void serviceFindAllTest() {
         System.out.println("debug findAll >>>>>>>>>>>>> ") ; 
-        List<BoardResponse> lst = service.listBoard();
+        PageDTO params = new PageDTO();
+        List<BoardResponse> lst = service.listBoard(params); 
         for(BoardResponse response : lst) {
             System.out.println(response); 
         }
@@ -92,7 +94,8 @@ public class BoardServiceTests {
     @Test
     public void serviceCnt() {
         System.out.println("debug cnt >>>>>>>>>>>>> ") ; 
-        Integer count = service.cntBoard();
+        PageDTO params = new PageDTO();
+        Integer count = service.cntBoard(params);
         System.out.println("총 데이터의 개수는 " + count + "개 입니다."); 
     }
 }

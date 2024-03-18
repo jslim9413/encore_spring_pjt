@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.example.encore_spring_pjt.ctrl.board.util.PageDTO;
 import com.example.encore_spring_pjt.domain.BoardRequest;
 import com.example.encore_spring_pjt.domain.BoardResponse;
 import com.example.encore_spring_pjt.mapper.BoardMapper;
@@ -65,7 +66,8 @@ public class MybatisORMTests {
     @Test
     public void ormCnt() {
         System.out.println("debug cnt >>>>>>>>>>>>> ") ; 
-        Integer count = boardMapper.count();
+        PageDTO params = new PageDTO();
+        Integer count = boardMapper.count(params);
         System.out.println("debug >>>> count success " + count); 
     }
 
@@ -81,7 +83,8 @@ public class MybatisORMTests {
     @Test
     public void ormFindAll() {
         System.out.println("debug findAll >>>>>>>>>>>>> ") ; 
-        List<BoardResponse> lst = boardMapper.findAll();
+        PageDTO params = new PageDTO();
+        List<BoardResponse> lst = boardMapper.findAll(params);
         for(BoardResponse response : lst) {
             System.out.println(response); 
         }
