@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.encore_spring_pjt.ctrl.board.util.PageDTO;
+import com.example.encore_spring_pjt.ctrl.board.util.PageResponse;
 import com.example.encore_spring_pjt.domain.BoardRequest;
 import com.example.encore_spring_pjt.domain.BoardResponse;
 import com.example.encore_spring_pjt.service.BoardService;
@@ -57,12 +58,14 @@ public class BoardController {
     }
     */
     @RequestMapping("/list.hanwha") // http:// serverip : port / board / list.hanwha
-    public String list(PageDTO params, Model model) {
+    public String list(@ModelAttribute("params") PageDTO params, Model model) {
         System.out.println("debug BoardController client path /board/list.hanwha params , " + params);
-        
-        List<BoardResponse> list = service.listBoard(params) ;  
+        // 반환결과만 수정
+        PageResponse<BoardResponse> list = service.listBoard(params) ; 
         model.addAttribute("lst", list ) ;
-        return "list" ; 
+        // 페이징처리를 위해서 list -> listPage 
+        // return "list" ; 
+        return "listPage" ; 
     }
 
     // @GetMapping("/view.hanwha/{idx}")

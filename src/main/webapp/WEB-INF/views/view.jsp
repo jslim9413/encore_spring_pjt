@@ -72,7 +72,7 @@
         </div>
 
         <div class="btn_wrap text-center">
-            <a  href="/board/list.hanwha" 
+            <a  href="javascript:listPage()" 
                 class="btn btn-default waves-effect waves-light">뒤로가기</a>
 
             <c:if test="${ loginUser.id == response.writer }">    
@@ -158,6 +158,11 @@
             })    
         }) ; 
 
+        function listPage() {
+            console.log("debug >>> listPage() call "); 
+            const queryString = new URLSearchParams(location.search); 
+            location.href="/board/list.hanwha"+queryString.toString();         
+        }
         /*]]>*/
         </script>
 </body>

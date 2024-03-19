@@ -1,13 +1,16 @@
 package com.example.encore_spring_pjt.service;
 
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Collections ;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.encore_spring_pjt.ctrl.board.util.PageDTO;
+import com.example.encore_spring_pjt.ctrl.board.util.PageResponse;
+import com.example.encore_spring_pjt.ctrl.board.util.Pagination;
 import com.example.encore_spring_pjt.domain.BoardRequest;
 import com.example.encore_spring_pjt.domain.BoardResponse;
 import com.example.encore_spring_pjt.mapper.BoardMapper;
@@ -77,13 +80,27 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.count() ; 
     }
     */
+    /* 
     @Override
     public List<BoardResponse> listBoard(PageDTO params) {
         System.out.println("debug >>> service listBoard ");
         System.out.println("debug >>> service params  , " + params); 
         return boardMapper.findAll(params);
     }
-    
+    */
+    @Override
+    public PageResponse<BoardResponse> listBoard(PageDTO params) {
+        // 페이지처리와 페이지네이션을 위해서는 전체 게시글 수가 필요
+        int recordCnt = boardMapper.count(params); 
+        if( recordCnt <= 0 ) {
+            return new PageResponse<>(Collections.emptyList(), null) ;  
+        }
+        // Pagination 객체를 이용해서 계산을 하기위해서는 params 객체를 넘겨줘야한다.
+        Pagination pagination = new Pagination(recordCnt, params);
+        params.setPagination(pagination); 
+        List<BoardResponse> list = boardMapper.findAll(params);
+        return new PageResponse<>(list, pagination) ; 
+    }
     @Override
     public Integer cntBoard(PageDTO params) {
         System.out.println("debug >>> service cntBoard "); 

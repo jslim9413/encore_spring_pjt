@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.encore_spring_pjt.ctrl.board.util.PageDTO;
+import com.example.encore_spring_pjt.ctrl.board.util.PageResponse;
 import com.example.encore_spring_pjt.domain.BoardRequest;
 import com.example.encore_spring_pjt.domain.BoardResponse;
 import com.example.encore_spring_pjt.service.BoardService;
@@ -86,10 +87,11 @@ public class BoardServiceTests {
     public void serviceFindAllTest() {
         System.out.println("debug findAll >>>>>>>>>>>>> ") ; 
         PageDTO params = new PageDTO();
-        List<BoardResponse> lst = service.listBoard(params); 
-        for(BoardResponse response : lst) {
-            System.out.println(response); 
-        }
+        PageResponse<BoardResponse> lst = service.listBoard(params); 
+        
+        // for(BoardResponse response : lst) {
+        //     System.out.println(response); 
+        // }
     }
     @Test
     public void serviceCnt() {

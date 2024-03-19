@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.encore_spring_pjt.ctrl.board.util.PageDTO;
+import com.example.encore_spring_pjt.ctrl.board.util.PageResponse;
 import com.example.encore_spring_pjt.domain.BoardRequest;
 import com.example.encore_spring_pjt.domain.BoardResponse;
 import com.example.encore_spring_pjt.service.BoardService;
@@ -58,8 +59,9 @@ public class RestBoardController {
     @GetMapping(value = "/list" , produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<BoardResponse>> list(@RequestBody PageDTO params) {
         System.out.println("debug RestBoardController client path /board_rest/list");
-        List<BoardResponse> list = service.listBoard(params);
-        return new ResponseEntity<List<BoardResponse>>(list, HttpStatus.OK) ;       
+        PageResponse<BoardResponse> list = service.listBoard(params);
+        return null ;
+        // return new ResponseEntity<List<BoardResponse>>(list, HttpStatus.OK) ;       
     }
 
     // 삭제 - PathVariable
