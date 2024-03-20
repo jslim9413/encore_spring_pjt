@@ -22,8 +22,8 @@ public class WebInterceptorConfig implements WebMvcConfigurer {
             .addPathPatterns("/board/**") ;  
         
         // board interceptor 
-        registry.addInterceptor(new LogoutInterceptor())
-            .addPathPatterns("/user/logout.hanwha") ;   
+        // registry.addInterceptor(new LogoutInterceptor())
+        //     .addPathPatterns("/user/logout.hanwha") ;   
     }
 
 }

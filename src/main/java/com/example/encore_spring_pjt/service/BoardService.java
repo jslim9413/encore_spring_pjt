@@ -1,12 +1,13 @@
 package com.example.encore_spring_pjt.service;
 
+import java.util.Optional;
+
+import java.util.Map;
+
 import com.example.encore_spring_pjt.ctrl.board.util.PageDTO;
 import com.example.encore_spring_pjt.ctrl.board.util.PageResponse;
 import com.example.encore_spring_pjt.domain.BoardRequest;
-import com.example.encore_spring_pjt.domain.BoardResponse;
-
-import java.util.List ;
-import java.util.Optional; 
+import com.example.encore_spring_pjt.domain.BoardResponse; 
 public interface BoardService {
     public Integer saveBoard(BoardRequest params);
     
@@ -25,6 +26,10 @@ public interface BoardService {
     
     public PageResponse<BoardResponse> listBoard(PageDTO params);      
     public Integer cntBoard(PageDTO params) ;  
+
+
+    
+    
 
 }
 

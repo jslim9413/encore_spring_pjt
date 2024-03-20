@@ -1,9 +1,19 @@
 package com.example.encore_spring_pjt.service;
 
 
-import java.util.Optional;
 import java.util.Collections ;
 import java.util.List;
+import java.util.Optional;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +24,10 @@ import com.example.encore_spring_pjt.ctrl.board.util.Pagination;
 import com.example.encore_spring_pjt.domain.BoardRequest;
 import com.example.encore_spring_pjt.domain.BoardResponse;
 import com.example.encore_spring_pjt.mapper.BoardMapper;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import lombok.RequiredArgsConstructor;
 
@@ -112,5 +126,7 @@ public class BoardServiceImpl implements BoardService {
         Optional<BoardResponse> response = boardMapper.findByIdx(params);
         return response ;
     }
+
+    
     
 }

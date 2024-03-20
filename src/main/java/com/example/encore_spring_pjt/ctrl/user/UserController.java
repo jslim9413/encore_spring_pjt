@@ -14,6 +14,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.encore_spring_pjt.ctrl.user.domain.UserRequest;
@@ -31,7 +32,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/user") // http:// server ip  : port /user
 @RequiredArgsConstructor
 public class UserController {
-
     private final UserService userService ; 
     private final PasswordEncoder passwordEncoder ; 
 
@@ -72,14 +72,7 @@ public class UserController {
         
     }
 
-    @GetMapping("/logout.hanwha")
-    public String logout(HttpSession session) {
-        System.out.println("debug UserController client path /user/logout.hanwha");
-        // session.invalidate() ; 
-        // return "redirect:/" ;  
-        return null  ;
-
-    }
+    
     @GetMapping("/join.hanwha")
     public String joinForm() {
         System.out.println("debug UserController client GET path /user/join.hanwha");
@@ -122,8 +115,37 @@ public class UserController {
         }
         
     }
-    
-    
 
+    // 인증이후 카카오쪽에서 호출하는 메서드임. 
+    @GetMapping("/kakao_login.hanwha")
+    public String kakaoLogin(@RequestParam(value = "code") String code , Model model, HttpSession session) {
+        System.out.println("debug >>> oauth kakao code , " + code); 
+        String accessToken = userService.getAccessToken(code);
+
+        Map<String, Object> users = userService.getUserInfo(accessToken);
+        System.out.println("debug >>> ctrl result , " + users.get("name")); 
+        
+        UserResponse response = new UserResponse() ; 
+        response.setName((String)(users.get("name")) ); 
+        session.setAttribute("loginUser", response);
+        session.setAttribute("access_token", accessToken);
+        return "redirect:/board/list.hanwha" ; 
+    }
+
+    @GetMapping("/kakao_logout.hanwha")
+    public String kakaoLogout(HttpSession session) {
+        System.out.println("debug >>> ctrl kakaoLogout");
+        
+        // 1. session으로부터 access token 얻어와서 카카오서버에 전달 삭제
+        String token = (String)session.getAttribute("access_token");
+        Map<String, String> map = new HashMap<>();
+        map.put("Authorization" , "Bearer "+token);
+        String result = userService.logout(map); 
+        System.out.println("debug >>> logout result , " + result ); 
+        session.invalidate(); 
+        return "redirect:/" ; 
+       
+    }
 }
+
 

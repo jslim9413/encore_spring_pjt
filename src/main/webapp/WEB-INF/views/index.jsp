@@ -49,9 +49,9 @@
 		</div>
 	  </form>
 	  		<!-- 카카오 로그인 -->
-			<a class="p-2" href="">
-				카카오 oauth
-			</a><br/>	
+			<a class="p-2" href="https://kauth.kakao.com/oauth/authorize?client_id=216fc3c6b7b14049365166d55e9ca063&redirect_uri=http://localhost:8888/user/kakao_login.hanwha&response_type=code">
+				<img src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg" class="img-responsive" />
+			</a><br/>		
 			
 	
 			<a href="#">I forgot my password</a><br>
